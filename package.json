@@ -1,0 +1,27 @@
+{
+  "name": "kneatwars",
+  "version": "1.0.0",
+  "description": "Hook into SWAPI and calculate stops required for given MLY for all star wars ships",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha",
+    "watch:test": "mocha -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.com/lryan/KneatWars.git"
+  },
+  "author": "Liam Ryan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://gitlab.com/lryan/KneatWars/issues"
+  },
+  "homepage": "https://gitlab.com/lryan/KneatWars#README",
+  "devDependencies": {
+    "mocha": "^3.2.0",
+    "nodemon": "^1.11.0"
+  },
+  "dependencies": {
+    "request": "^2.79.0"
+  }
+}
