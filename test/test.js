@@ -3,21 +3,25 @@
 const assert = require('assert'),
     swapi = require('../api-interface/swapi').fetchEndpoint;
 
-let apiTestCallback = (error, json ) => {
-    if ( !error ) {
-        if ( json ) {
-            console.log(json);
-        } else {
-            error = "JSON response is unexpectedly empty"
-        }
-    }
-    return error;
-};
-
 describe( 'SWAPI requests', () => {
     describe( 'Retrieve endpoints', ()=> {
-        it('Should return starships', (done) => {
-            done( swapi("starships", apiTestCallback ) )
+        it('starships endpoint Should return starships', () => {
+            return swapi("starships")
+                .then( (data) => {
+                    console.log(data);
+                    assert.ok(data);
+                })
         });
+        it('bad endpoint should be caught ', () => {
+            return swapi("nope")
+                .then( (data) => {
+                    console.log(`Hit then instead of catch accessing endpoint 'nope'. Returned data is ${data}`);
+                    assert.ok(false)
+                })
+                .catch( () => {
+                    console.log(`Correctly hit catch block for endpoint 'nope`);
+                    assert.ok(true)
+                })
+        })
     });
 });
