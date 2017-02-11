@@ -1,27 +1,42 @@
 "use strict";
 
-let serverMock = require("mock-http-server"),
-    server = new serverMock({
+const JSON_HEADER = {"content-type": "application/json"},
+    HTTP_HEADER = {"content-type": "text/html"},
+    sampleJSON = require("./api-responses"),
+    serverMock = require("mock-http-server");
+
+let serverInstance = () => {
+    let server = new serverMock({
         host: "localhost",
         port: "9784"
-    }),
-    sampleJSON = require("./api-responses");
+    });
 
-let fakeGetReqRes = (uri, status, headers, body) => {
-    return {
-        method: 'GET',
-        path: uri,
-        reply: {
-            status: status,
-            headers: headers,
-            body: body
+    let fakeGetReqRes = (uri, status, headers, body) => {
+        return {
+            method: "GET",
+            path: uri,
+            reply: {
+                status: status,
+                headers: headers,
+                body: body
+            }
         }
-    }
+    };
+
+    let relativePathAsJSON = (req) => {
+        return `{"url": "${req.url}"}`;
+    };
+
+//http-request test endpoints
+    server.on(fakeGetReqRes("/badjson", 200, JSON_HEADER, "{'badjson': []}"));
+    server.on(fakeGetReqRes("/starships", 200, {"Content-Type": "application/json"}, sampleJSON.starships));
+    server.on(fakeGetReqRes("/html", 200, HTTP_HEADER, "I sense a great disturbance in the force"));
+
+//swapi-retrieve test endpoints
+    server.on(fakeGetReqRes("/people", 200, JSON_HEADER, relativePathAsJSON));
+    server.on(fakeGetReqRes("/people/3", 200, JSON_HEADER, relativePathAsJSON));
+    server.on(fakeGetReqRes("/", 200, JSON_HEADER, relativePathAsJSON));
+
+    return server
 };
-
-server.on(fakeGetReqRes("/badjson", 200, {"content-type": "application/json"}, "{'badjson': []}"));
-server.on(fakeGetReqRes("/starships", 200, {"Content-Type": "application/json"}, sampleJSON.starships));
-server.on(fakeGetReqRes("/html", 200, {"content-type": "text/html"}, "I sense a great disturbance in the forks"));
-
-
-module.exports = server;
+module.exports = serverInstance;

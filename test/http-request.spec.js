@@ -1,13 +1,12 @@
 "use strict";
 
+
 const assert = require('assert'),
-    mockServer = require('./test-server'),
+    mockServer = require('./test-server')(),
     httpRequest = require('../web/http-request'),
     jsonRequest = httpRequest.fetchJSON;
 
-require('sinon-as-promised');
-
-describe('SWAPI requests', () => {
+describe('http-request tests', () => {
     before((done) => {
         mockServer.start(done)
     });
@@ -19,29 +18,29 @@ describe('SWAPI requests', () => {
             return jsonRequest("http://localhost:9784/starships")
                 .then((data) => {
                     console.log(data);
-                    assert.ok(data);
+                    assert(data);
                 })
                 .catch((error) => {
                     console.log(error);
-                    assert.ok(false);
+                    assert(false);
                 })
         });
         it('bad endpoint should be caught ', () => {
             return jsonRequest("http://localhost:9784/nope")
-                .then((data) => {
+                .then(() => {
                     console.log(`Hit then instead of catch accessing endpoint 'nope'`);
-                    assert.ok(false)
+                    assert(false)
                 })
                 .catch(() => {
                     console.log(`Correctly hit catch block for endpoint 'nope`);
-                    assert.ok(true)
+                    assert(true)
                 })
         });
         it('non json resource ', () => {
             return jsonRequest("http://localhost:9784/html")
-                .then((data) => {
+                .then(() => {
                     console.log("Page was returned when it should not have been");
-                    assert.ok(false);
+                    assert(false);
                 })
                 .catch((data) => {
                     console.log(data);
@@ -53,7 +52,7 @@ describe('SWAPI requests', () => {
             return jsonRequest("http://localhost:9784/badjson")
                 .then(() => {
                     console.log("Data was returned instead of error being thrown by JSON.parse");
-                    assert.ok(false)
+                    assert(false)
                 })
                 .catch((error) => {
                     console.log("Error thrown for malformed json");
