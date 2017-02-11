@@ -19,7 +19,7 @@ let fetchURL = (url) => {
 let fetchJSON = (url) => {
     return fetchURL(url)
         .then((response) => {
-            let contentTypeHeaders = response.headers['content-type'] || response.headers['Content-Type'];
+            let contentTypeHeaders = response.headers['content-type'];
             if (response.statusCode == 200 && contentTypeHeaders && contentTypeHeaders.toLowerCase().indexOf('application/json') > -1) {
                 try {
                     return Promise.resolve(JSON.parse(response.body));
@@ -32,6 +32,5 @@ let fetchJSON = (url) => {
 };
 
 module.exports = {
-    fetchJSON: fetchJSON,
-    fetchURL: fetchURL
+    fetchJSON: fetchJSON
 };

@@ -19,7 +19,9 @@ let fakeGetReqRes = (uri, status, headers, body) => {
     }
 };
 
-module.exports = {
-    server: server,
-    fakeGetReqRes: fakeGetReqRes
-};
+server.on(fakeGetReqRes("/badjson", 200, {"content-type": "application/json"}, "{'badjson': []}"));
+server.on(fakeGetReqRes("/starships", 200, {"Content-Type": "application/json"}, sampleJSON.starships));
+server.on(fakeGetReqRes("/html", 200, {"content-type": "text/html"}, "I sense a great disturbance in the forks"));
+
+
+module.exports = server;
