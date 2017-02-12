@@ -22,6 +22,8 @@ let fetchJSON = (url) => {
             let contentTypeHeaders = response.headers['content-type'];
             if (response.statusCode == 200 && contentTypeHeaders && contentTypeHeaders.toLowerCase().indexOf('application/json') > -1) {
                 try {
+                    //wookiee is not valid json, replace whhaunan with null to avoid parse exceptions
+                    response.body = response.body.replace(/whhuanan/g, "null");
                     return Promise.resolve(JSON.parse(response.body));
                 } catch (error) {
                     return Promise.reject(`A JSON endpoint was found at ${url} but the json parser failed with the following error - ${error}`)

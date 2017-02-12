@@ -20,7 +20,6 @@ describe('swapi-retrieve tests', () => {
         it("Retrieve base entity type", () => {
             return swapi.getEntity({entityType: "people"})
                 .then((data) => {
-                    console.log(data);
                     assert(data.url === "/people")
                 })
                 .catch((error) => {
@@ -40,7 +39,6 @@ describe('swapi-retrieve tests', () => {
         it("Retrieve base entity type with search", () => {
             return swapi.getEntity({entityType: "people", find: "r2"})
                 .then((data) => {
-                    console.log(data);
                     assert(data.url === "/people?search=r2")
                 })
                 .catch((error) => {
@@ -51,7 +49,6 @@ describe('swapi-retrieve tests', () => {
         it("Retrieve base entity type with search in wookiee", () => {
             return swapi.getEntity({entityType: "people", isWookiee: true, find: "r2"})
                 .then((data) => {
-                    console.log(data);
                     assert(data.url === "/people?format=wookiee&search=r2")
                 })
                 .catch((error) => {
@@ -62,7 +59,6 @@ describe('swapi-retrieve tests', () => {
         it("Retrieve single entity by id", () => {
             return swapi.getEntity({entityType: "people", entityId: 3})
                 .then((data) => {
-                    console.log(data);
                     assert(data.url === "/people/3")
                 })
                 .catch((error) => {
@@ -73,7 +69,6 @@ describe('swapi-retrieve tests', () => {
         it("Retrieve single entity by id in wookie", () => {
             return swapi.getEntity({entityType: "people", entityId: 3, isWookiee: true})
                 .then((data) => {
-                    console.log(data);
                     assert(data.url === "/people/3?format=wookiee")
                 })
                 .catch((error) => {
@@ -84,7 +79,6 @@ describe('swapi-retrieve tests', () => {
         it("Call getEntity with empty options", () => {
             return swapi.getEntity({})
                 .then((data) => {
-                    console.log(data);
                     assert(data.url === "/")
                 })
                 .catch((error) => {
@@ -95,13 +89,42 @@ describe('swapi-retrieve tests', () => {
         it("Call getEntity with no arguments", () => {
             return swapi.getEntity()
                 .then((data) => {
-                    console.log(data);
                     assert(data.url === "/")
                 })
                 .catch((error) => {
                     console.log(error);
                     assert(false);
                 })
-        })
+        });
+        it("Retrieve all of an entity", () => {
+            return swapi.getAllEntities({entityType: "starships"})
+                .then((data) => {
+                    assert(data.length === 20)
+                })
+                .catch( (error) => {
+                    console.log(error);
+                    assert(false);
+                })
+        });
+        it("Throw error on empty entity page", () => {
+            return swapi.getAllEntities({entityType: "emptyjsonpage"})
+                .then(() => {
+                    assert(false)
+                })
+                .catch( () => {
+                    assert(true);
+                })
+        });
+        it("Retrieve all of an entity in Wookiee", () => {
+           return swapi.getAllEntities({entityType: "starships", isWookiee: true})
+               .then((data) => {
+                    assert( data.length === 20);
+                    assert( data[10]["whrascwo"] === "Craanrascrarcah Crchuahcworc");
+               })
+               .catch((error) => {
+                   console.log(error);
+                   assert(false);
+               })
+        });
     })
 });

@@ -14,11 +14,10 @@ describe('http-request tests', () => {
         mockServer.stop(done);
     });
     describe('Retrieve endpoints', () => {
-        it('starships endpoint Should return starships', () => {
+        it('starships endpoint Should return 10 starships', () => {
             return jsonRequest("http://localhost:9784/starships")
                 .then((data) => {
-                    console.log(data);
-                    assert(data);
+                    assert(data.results.length === 10);
                 })
                 .catch((error) => {
                     console.log(error);
@@ -32,7 +31,6 @@ describe('http-request tests', () => {
                     assert(false)
                 })
                 .catch(() => {
-                    console.log(`Correctly hit catch block for endpoint 'nope`);
                     assert(true)
                 })
         });
@@ -43,8 +41,6 @@ describe('http-request tests', () => {
                     assert(false);
                 })
                 .catch((data) => {
-                    console.log(data);
-                    console.log("error was thrown");
                     assert(data, "URL was not a valid JSON endpoint");
                 })
         });
@@ -55,8 +51,6 @@ describe('http-request tests', () => {
                     assert(false)
                 })
                 .catch((error) => {
-                    console.log("Error thrown for malformed json");
-                    console.log(error);
                     assert(error.indexOf("A JSON endpoint was found at") > -1 );
                 });
         })
