@@ -2,11 +2,20 @@
 
 const inquirer = require('inquirer'),
     translator = require('../translate/english-wookiee-translator'),
-    EXIT = -1,
-    STARSHIP_STOPS = 0;
+    STATE = {
+        EXIT: -1,
+        MAIN: 1,
+        STARSHIP_STOPS: 2,
+        STOPS_RESULTS: 3
+    };
 
 let currentSession = {
-    isWookiee: false
+    isWookiee: false,
+    state: null
+};
+
+let translate = ( input ) => {
+  return translator.translate( input, currentSession.isWookiee);
 };
 
 let languageOptions = {
@@ -27,22 +36,67 @@ let languageOptions = {
 let mainMenu = [
     {
         type: "list",
-        name: "selectedOption",
+        name: "state",
         message: () => translator.translate("Please select an operation", currentSession.isWookiee),
         choices: () => {
             return [
                 {
-                    name: translator.translate("Calculate starship supply stops for a given MGLY", currentSession.isWookiee),
-                    value: STARSHIP_STOPS
+                    name: translate("Calculate starship supply stops for a given MGLT"),
+                    value: STATE.STARSHIP_STOPS
                 },
                 {
-                    name: translator.translate("Exit", currentSession.isWookiee),
-                    value: EXIT
+                    name: translate("Exit"),
+                    value: STATE.EXIT
                 }
             ]
         }
     }
 ];
+
+let stopsMenu = [
+    {
+        type: "input",
+        name: "MGLT",
+        message: () => translate("Please enter the number of megalights"),
+        validator: (input) => {
+            let inputFloat = parseFloat(input);
+            if( !isNaN(inputFloat) && inputFloat > 0) {
+                if( input.length > 15 ) {
+                    return translate("Please use a number less than 15 digits long to preserve accuracy");
+                } else {
+                    return true;
+                }
+            }
+            return translate("Please enter an unformatted number greater than 0 eg 1000")
+        }
+    },
+    {
+
+    }
+];
+
+let loadMainMenu = () => {
+    return inquirer.prompt(mainMenu)
+        .then(handleState)
+};
+
+let loadStopsMenu = () => {
+    return inquirer.prompt(stopsMenu)
+        .then(handleState)
+};
+
+let handleState = (answers) => {
+    currentSession.state = answers.state;
+    console.log(currentSession.state);
+    switch (currentSession.state) {
+        case STATE.EXIT:
+            return;
+        case STATE.MAIN:
+            return loadMainMenu();
+        case STATE.STARSHIP_STOPS:
+            return loadStopsMenu();
+    }
+}
 
 let terminal = () => {
 
@@ -50,11 +104,9 @@ let terminal = () => {
         .then((answers) => {
             currentSession.isWookiee = answers.isWookiee;
             console.log(currentSession.isWookiee);
-            currentSession.currentState = "menu";
+            currentSession.state = STATE.MAIN;
         })
-        .then(() => {
-            return inquirer.prompt(mainMenu)
-        })
+        .then(loadMainMenu)
 };
 
 module.exports = terminal;
