@@ -1,6 +1,6 @@
-const swapi = require('./web/swapi-retrieve'),
+const swapi = require('./../web/swapi-retrieve'),
     _ = require('lodash'),
-    translator = require('./translate/english-wookiee-translator'),
+    translator = require('./../translate/english-wookiee-translator'),
     MGLT_ERROR = "Please enter an unformatted positive number for MGLT. eg 1000000";
 
 let types = {
@@ -38,6 +38,7 @@ let parseHours = (timePeriodString, language) => {
 
 let getShipsWithJumps = (options, mglt) => {
     mglt = parseFloat(mglt);
+    options.entityType = "starships";
 
     if (!mglt || isNaN(parseFloat(mglt)) || parseFloat(mglt) < 0) {
         return Promise.reject(translator.translate(MGLT_ERROR, options.isWookiee))

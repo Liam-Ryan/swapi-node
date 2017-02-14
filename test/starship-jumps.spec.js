@@ -5,7 +5,7 @@ mock('../config/config', {
     swapiRootURL: "http://localhost:9784"
 });
 
-const jumps = require("../starship-jumps"),
+const jumps = require("../starshipstopcalculator/starship-stops"),
     assert = require('assert'),
     mockServer = require('./test-server')(),
     _ = require('lodash'),
