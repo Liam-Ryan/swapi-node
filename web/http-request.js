@@ -2,6 +2,12 @@
 
 const request = require('request-promise-native').get;
 
+/**
+ * Retrieve a provided url
+ *
+ * @param url the full url as a string
+ * @returns {Choice|Undefined|*} Promise which resolves to a request or a rejection
+ */
 let fetchURL = (url) => {
     let options = {
         uri: url,
@@ -11,10 +17,11 @@ let fetchURL = (url) => {
 };
 
 /**
+ * Retrieve a provided url and automatically parse to JSON. Returns an error if the content is not JSON or if parsing fails
  *
  * @param url - the url to query
  *
- * @return Promise which resolves on data or rejects on error. Always check if json is not empty on resolve
+ * @return Promise which resolves on data or rejects on error. Always check if json is not empty on resolve as this is still valid
  */
 let fetchJSON = (url) => {
     return fetchURL(url)

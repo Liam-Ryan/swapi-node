@@ -3,7 +3,13 @@
 const dictionaries = require('./dictionaries'),
     _ = require('lodash');
 
+/**
+ * Translate a wookie string to english. If wookiee were a real language I'd instead set up localization files and just require the language selected
+ *
+ *  @param wookieString string to translate to english
+ */
 let translateWookiee = (wookieString) => {
+    //Wookiee needs some extra logic as certain letters mean you also take the next letter as the translation string
     let stringArray = [],
         currentString = "";
     Array.prototype.forEach.call(wookieString, (char) => {
@@ -30,10 +36,22 @@ let translateWookiee = (wookieString) => {
     return translate(stringArray, dictionaries.wookieToEnglish);
 };
 
+/**
+ * Wrapper around translate for english
+ *
+ * @param englishString
+ */
 let translateEnglish = (englishString) => {
     return translate(englishString.split(""), dictionaries.englishToWookiee)
 };
 
+/**
+ * Translate using dictionaries
+ *
+ * @param stringArray The string to translate as an array ( for wookiee this should already be split using translateWookie function
+ * @param dictionary The dictionary to use for the translation
+ * @returns {string}
+ */
 let translate = (stringArray, dictionary) => {
     let translation = "";
     _.each(stringArray, (str) => {
