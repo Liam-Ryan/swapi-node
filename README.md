@@ -34,6 +34,8 @@ In the results page you can select any ship to see full info ( it will be printe
 ****
 **Notes**
 
+Wookiee intentionally does not translate upper-case characters as this is the behaviour displayed by swapi. I'm not sure if it's actually correct but I wanted the library to map to keys easily. The only exception in the code is the capitalized RETURN TO MAIN MENU where I translate in lowercase and then cast to uppercase as it looked like a bug if it was displayed in Wookiee
+
 My main focus was making sure the application was easily extended. The code to retrieve and search for any swapi entity in english or wookiee is already present, the menu just needs to be added. The MGLT results screen can also be easily extended to re-order the results, link to related films, show the schema from swapi to give field details and so on.
 
 Hard-coded strings are scattered throughout the files. If Wookiee were a real language or I had more time I would split them out into a separate file. I've created strings.js as a sample of this and applied it to starship-stops.js 
