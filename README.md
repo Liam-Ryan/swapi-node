@@ -4,7 +4,8 @@ Enter the number of mega light-years to calculate the number of stops needed for
 ****
 **Requirements**
 
-NodeJS version 6+ is required as this program utilizes ES6 features not added until Node version 6. 
+NodeJS version 6+ is required as this program utilizes ES6 features not added until Node version 6.
+The program has been tested on Linux Mint, Windows 10 & Windows 7. If any errors do occur please try using the NodeJS LTS version (6.9.5) 
 ****
 
 **Getting started** 
