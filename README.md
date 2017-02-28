@@ -21,8 +21,6 @@ _npm run coverage_ - Generate test coverage report, outputs summary to console a
 ****
 **Using the Application**
 
-I really hope this section isn't needed or I've done something very wrong :) 
-
 After running npm install and npm start you will be prompted for language. Arrows Navigate, Enter confirms
 
 The main menu allows you to switch language, calculate stops for MGLT or exit
