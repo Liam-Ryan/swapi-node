@@ -1,6 +1,8 @@
-**Swapi MLT Calculator**
+**Swapi MLT Calculator** 
 
 Enter the number of mega light-years to calculate the number of stops needed for each ship in the star wars universe.
+This project was developed under strict time constraints as part of a competition.
+
 ****
 **Requirements**
 
